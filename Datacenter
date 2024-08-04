@@ -153,10 +153,9 @@ ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 
 ! Logging configuration
+logging 10.150.0.16
 logging trap debugging
-logging origin-id hostname
-logging source-interface Vlan990
-logging host 10.150.0.16
+logging trap informational
 
 ! Control plane configuration
 control-plane
