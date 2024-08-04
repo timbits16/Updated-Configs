@@ -1,1 +1,3 @@
 
+interface range gigabitEthernet3/0 -3
+shutdown
