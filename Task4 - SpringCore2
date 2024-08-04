@@ -1,1 +1,14 @@
 
+ip access-list extended DENY_VISITORS_TO_DC
+ deny ip 10.150.28.0 0.0.0.255 10.150.0.0 0.0.0.255
+ deny ip 10.150.60.0 0.0.0.255 10.150.0.0 0.0.0.255
+ deny ip 10.150.96.0 0.0.0.255 10.150.0.0 0.0.0.255
+ permit ip any any
+
+
+interface Vlan155
+ ip access-group DENY_VISITORS_TO_DC in
+interface Vlan220
+ ip access-group DENY_VISITORS_TO_DC in
+interface Vlan325
+ ip access-group DENY_VISITORS_TO_DC in
