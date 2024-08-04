@@ -1,0 +1,193 @@
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+
+hostname DataCentre
+no logging console
+
+! Enable secret for privileged access
+enable secret 5 $1$NPx/$jCydXaJJSTLgK9XxHJeF./
+
+! VTP mode
+vtp mode transparent
+
+! Disable IP routing and domain lookup
+no ip routing
+no ip domain-lookup
+no ip cef
+no ipv6 cef
+
+! Spanning Tree Protocol configuration
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+
+! VLAN configurations
+vlan 999
+ name Native
+vlan 720
+ name IT
+vlan 990
+ name DataCenter
+vlan 888
+ name Closed
+
+! Port-channel configurations
+interface Port-channel1
+ switchport trunk allowed vlan 720,990,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+
+interface Port-channel2
+ switchport trunk allowed vlan 720,990,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+
+! Interface configurations
+interface GigabitEthernet0/0
+ switchport trunk allowed vlan 720,990,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+ channel-group 1 mode desirable
+
+interface GigabitEthernet0/1
+ switchport trunk allowed vlan 720,990,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+ channel-group 1 mode desirable
+
+interface GigabitEthernet0/2
+ switchport trunk allowed vlan 720,990,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+ channel-group 2 mode desirable
+
+interface GigabitEthernet0/3
+ switchport trunk allowed vlan 720,990,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+ channel-group 2 mode desirable
+
+interface GigabitEthernet1/0
+ switchport access vlan 990
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet1/1
+ switchport access vlan 990
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet1/2
+ switchport access vlan 990
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet1/3
+ switchport access vlan 720
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+ ! Port security for IT VLAN ports
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+
+! Disable unused ports
+interface GigabitEthernet2/0
+ switchport access vlan 888
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+ negotiation auto
+
+interface GigabitEthernet2/1
+ switchport access vlan 888
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+ negotiation auto
+
+interface GigabitEthernet2/2
+ switchport access vlan 888
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+ negotiation auto
+
+interface GigabitEthernet2/3
+ switchport access vlan 888
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+ negotiation auto
+
+! VLAN interface configuration
+interface Vlan990
+ ip address 10.150.0.34 255.255.255.0
+ no shutdown
+
+! IP forward-protocol
+ip forward-protocol nd
+
+! HTTP server configuration
+no ip http server
+no ip http secure-server
+
+! SSH encryption algorithms
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+
+! Logging configuration
+logging trap debugging
+logging origin-id hostname
+logging source-interface Vlan990
+logging host 10.150.0.16
+
+! Control plane configuration
+control-plane
+
+! Disable unused ports
+interface GigabitEthernet2/0
+ shutdown
+interface GigabitEthernet2/1
+ shutdown
+interface GigabitEthernet2/2
+ shutdown
+interface GigabitEthernet2/3
+ shutdown
+
+! Line configuration
+line con 0
+ exec-timeout 0 0
+ password cisco
+ logging synchronous
+ login
+
+line aux 0
+
+line vty 0 4
+ password cisco
+ login
+ transport input ssh
+
+line vty 5 15
+ password cisco
+ login
+ transport input ssh
+
+end
