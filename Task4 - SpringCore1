@@ -1,0 +1,8 @@
+interface range Gigabitethernet0/1 - 3
+switchport nonegotiate
+
+interface range Gigabitethernet1/0 - 3
+switchport nonegotiate
+
+interface range Gigabitethernet2/0 - 3
+switchport nonegotiate
