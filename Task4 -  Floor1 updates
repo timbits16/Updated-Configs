@@ -1,2 +1,24 @@
 interface range gigabitEthernet3/0 -3
 shutdown
+
+
+
+ip dhcp snooping
+ip dhcp snooping vlan 105,115,125,135,145,155,720,999
+
+interface GigabitEthernet0/0
+ip dhcp snooping trust
+interface gigabitEthernet0/1
+ip dhcp snooping trust
+
+interface range GigabitEthernet0/2 - 3
+ip dhcp snooping limit rate 15
+
+interface range GigabitEthernet1/0 - 3
+ip dhcp snooping limit rate 15
+
+interface range GigabitEthernet2/0 - 3
+ip dhcp snooping limit rate 15
+
+interface range GigabitEthernet3/0 - 3
+ip dhcp snooping limit rate 15
