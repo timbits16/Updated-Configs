@@ -1,0 +1,27 @@
+! DataCentre
+ip dhcp snooping
+ip dhcp snooping vlan 720,990,999
+
+interface range GigabitEthernet0/0 - 3
+ip dhcp snooping trust
+
+interface range GigabitEthernet1/0 - 3
+ip dhcp snooping limit rate 15
+
+! Save and exit
+end
+write memory
+
+! SpringCore1
+ip dhcp snooping
+ip dhcp snooping vlan 105,115,125,135,145,155,200,205,210,215,220,305,310,315,320,325,720,990,999
+
+interface range GigabitEthernet0/0 - 3
+ip dhcp snooping trust
+
+interface range GigabitEthernet1/0 - 3
+ip dhcp snooping limit rate 15
+
+! Save and exit
+end
+write memory
