@@ -1,0 +1,131 @@
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+
+hostname SpringR1
+enable secret 9 $9$jfOHaTUBeeo807$JkHAIZHn8VrUOyqgk.uQONGS1ExbYUA.33HfXk0J5VE
+
+no aaa new-model
+no ip domain lookup
+
+! Configure SSH
+ip domain-name shmc.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+multilink bundle-name authenticated
+
+redundancy
+
+! Interface configurations
+interface GigabitEthernet0/0
+ ip address 10.150.127.5 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf network point-to-point
+ ip ospf 15 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:BBFC:88EF:FFFD::1/64
+ ipv6 ospf 15 area 0
+ no shutdown
+
+interface GigabitEthernet0/1
+ ip address 10.150.127.9 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf network point-to-point
+ ip ospf 15 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:BBFC:88EF:FFFE::1/64
+ ipv6 ospf 15 area 0
+ no shutdown
+
+interface GigabitEthernet0/2
+ description Line to SpringR2
+ ip address 10.150.127.1 255.255.255.252
+ ip helper-address 10.150.0.12
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf 15 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:BBFC:88EF:FFFF::1/64
+ ipv6 ospf 15 area 0
+ no shutdown
+
+interface GigabitEthernet0/3
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
+ ip ospf 15 area 0
+ no shutdown
+
+! OSPFv3 configuration for IPv6
+router ospfv3 15
+ router-id 1.1.1.1
+ address-family ipv6 unicast
+ exit-address-family
+
+! OSPF configuration for IPv4
+router ospf 15
+ router-id 1.1.1.1
+ priority 127
+ auto-cost reference-bandwidth 1000
+ passive-interface GigabitEthernet0/3
+ network 192.168.255.0 0.0.0.255 area 0
+ default-information originate
+
+!NAT
+ip nat inside source list 1 interface GigabitEthernet0/3 overload
+ip route 0.0.0.0 0.0.0.0 192.168.255.1
+
+access-list 1 permit 10.150.0.0 0.0.127.255
+access-list 1 deny any
+
+! Logging configuration
+logging 10.150.0.16
+logging trap debugging
+logging trap informational
+
+
+! Disable HTTP server
+no ip http server
+no ip http secure-server
+
+! Line configuration
+line con 0
+ exec-timeout 0 0
+ password cisco
+ logging synchronous
+ login
+
+line aux 0
+
+line vty 0 4
+ password cisco
+ login
+ transport input ssh
+
+line vty 5 15
+ password cisco
+ login
+ transport input ssh
+
+no scheduler allocate
+
+end
