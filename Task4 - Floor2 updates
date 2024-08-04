@@ -1,2 +1,13 @@
+!shutdown unused ports
 interface range gigabitEthernet3/0 -3
 shutdown
+
+!secure trunks and interfaces
+interface range Gigabitethernet0/3
+switchport nonegotiate
+
+interface range Gigabitethernet1/0 - 3
+switchport nonegotiate
+
+interface range Gigabitethernet2/0 - 3
+switchport nonegotiate
