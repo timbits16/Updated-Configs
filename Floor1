@@ -1,0 +1,177 @@
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+
+hostname Acc1-Floor1
+no logging console
+
+! Enable secret for privileged access
+enable secret 5 $1$WVXx$EU9LpcTNmIMOzDhN013PJ1
+
+! Disable AAA new model
+no aaa new-model
+
+! VTP mode
+vtp mode transparent
+
+! Disable IP routing and domain lookup
+no ip routing
+no ip domain-lookup
+no ip cef
+no ipv6 cef
+
+! Spanning Tree Protocol configuration
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+
+! VLAN configurations
+vlan 105
+ name PharmaPlus
+vlan 115
+ name DynaLabs
+vlan 125
+ name Reception
+vlan 135
+ name Security
+vlan 145
+ name Facilities
+vlan 155
+ name Visitor1
+vlan 720
+ name IT
+vlan 999
+ name Native
+vlan 888
+ name Closed
+
+! Interface configurations
+interface GigabitEthernet0/0
+ switchport trunk allowed vlan 105,115,125,135,145,155,720,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+
+interface GigabitEthernet0/1
+ switchport trunk allowed vlan 105,115,125,135,145,155,720,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+
+interface GigabitEthernet0/2
+ switchport access vlan 105
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet0/3
+ switchport access vlan 115
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet1/0
+ switchport access vlan 125
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet1/1
+ switchport access vlan 125
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet1/2
+ switchport access vlan 135
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet1/3
+ switchport access vlan 135
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet2/0
+ switchport access vlan 145
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet2/1
+ switchport access vlan 155
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet2/2
+ switchport access vlan 155
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+interface GigabitEthernet2/3
+ switchport access vlan 720
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+
+! VLAN interface configuration
+interface Vlan105
+ ip address 10.150.8.31 255.255.255.0
+ no shutdown
+
+! IP forward-protocol
+ip forward-protocol nd
+
+! HTTP server configuration
+no ip http server
+no ip http secure-server
+
+! SSH encryption algorithms
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+
+! Control plane configuration
+control-plane
+
+! Port security for IT VLAN ports
+interface GigabitEthernet2/3
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+
+interface GigabitEthernet2/1
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+
+! Disable unused ports
+interface range GigabitEthernet2/2, GigabitEthernet2/3
+ shutdown
+
+! Line configuration
+line con 0
+ exec-timeout 0 0
+ password cisco
+ logging synchronous
+ login
+
+line aux 0
+
+line vty 0 4
+ password cisco
+ login
+ transport input ssh
+
+line vty 5 15
+ password cisco
+ login
+ transport input ssh
+
+end
