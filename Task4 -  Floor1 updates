@@ -22,3 +22,13 @@ ip dhcp snooping limit rate 15
 
 interface range GigabitEthernet3/0 - 3
 ip dhcp snooping limit rate 15
+
+!IT
+ip access-list extended ALLOW_IT_VLAN_VTY
+ permit ip 10.150.120.0 0.0.0.255 any
+ deny ip any any
+
+line vty 0 4
+ access-class ALLOW_IT_VLAN_VTY in
+line vty 5 15
+ access-class ALLOW_IT_VLAN_VTY in
