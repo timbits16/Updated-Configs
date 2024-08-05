@@ -7,7 +7,7 @@ switchport nonegotiate
 interface range Gigabitethernet2/0 - 3
 switchport nonegotiate
 
-
+!Visitor Deny
 ip access-list extended DENY_VISITORS_TO_DC
  deny ip 10.150.28.0 0.0.0.255 10.150.0.0 0.0.0.255
  deny ip 10.150.60.0 0.0.0.255 10.150.0.0 0.0.0.255
@@ -21,3 +21,13 @@ interface Vlan220
  ip access-group DENY_VISITORS_TO_DC in
 interface Vlan325
  ip access-group DENY_VISITORS_TO_DC in
+
+!IT
+ip access-list extended ALLOW_IT_VLAN_VTY
+ permit ip 10.150.120.0 0.0.0.255 any
+ deny ip any any
+
+line vty 0 4
+ access-class ALLOW_IT_VLAN_VTY in
+line vty 5 15
+ access-class ALLOW_IT_VLAN_VTY in
