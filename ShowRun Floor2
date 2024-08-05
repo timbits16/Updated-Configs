@@ -1,0 +1,244 @@
+Acc-Floor2#show run
+Building configuration...
+
+Current configuration : 5119 bytes
+!
+! Last configuration change at 04:35:10 UTC Mon Aug 5 2024
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname Acc-Floor2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no logging console
+enable secret 5 $1$xu41$4FlIFH5.K7Th4i81PtUzo.
+!
+no aaa new-model
+!
+!
+!         
+!
+!
+vtp mode transparent
+no ip routing
+!
+!
+!
+no ip domain-lookup
+no ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+!
+vlan 200
+ name Physicians
+!
+vlan 205
+ name ChildrensHealth
+!         
+vlan 210
+ name CoolidgeLab
+!
+vlan 215
+ name MassageSpa
+!
+vlan 220
+ name Visitor2
+!
+vlan 720
+ name IT
+!
+vlan 888
+ name Closed
+!
+vlan 999
+ name Native
+!
+! 
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ switchport trunk allowed vlan 200,205,210,215,220,720,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ switchport trunk allowed vlan 200,205,210,215,220,720,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ switchport access vlan 200
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ switchport access vlan 205
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ switchport access vlan 210
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ switchport access vlan 210
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+!         
+interface GigabitEthernet1/2
+ switchport access vlan 215
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ switchport access vlan 215
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet2/0
+ switchport access vlan 220
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet2/1
+ switchport access vlan 720
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ negotiation auto
+!
+interface GigabitEthernet2/2
+ switchport access vlan 720
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ negotiation auto
+!
+interface GigabitEthernet2/3
+ switchport access vlan 888
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet3/0
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet3/1
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet3/2
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet3/3
+ shutdown
+ negotiation auto
+!
+interface Vlan200
+ ip address 10.150.44.32 255.255.255.0
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+ip access-list extended ALLOW_IT_VLAN_VTY
+ permit ip 10.150.120.0 0.0.0.255 any
+ deny   ip any any
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+banner incoming ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+banner login ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+          
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+!
+line con 0
+ exec-timeout 0 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ access-class ALLOW_IT_VLAN_VTY in
+ password cisco
+ login
+ transport input ssh
+line vty 5 15
+ access-class ALLOW_IT_VLAN_VTY in
+ password cisco
+ login
+ transport input ssh
+!
+!         
+end
+
+Acc-Floor2#
