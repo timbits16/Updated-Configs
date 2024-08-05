@@ -1,0 +1,200 @@
+SpringR2#show run
+Building configuration...
+
+*Aug  5 04:13:03.897: %SYS-5-CONFIG_I: Configured from console by console
+Current configuration : 4478 bytes
+!
+! Last configuration change at 04:13:03 UTC Mon Aug 5 2024
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname SpringR2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 9 $9$5d27mrgCU4fq6t$pRYDg7Z72yQMfETmlexGG25JiiuNPv5a5F8.0QZdDxs
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name shmc.local
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!         
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 10.150.127.17 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf network point-to-point
+ ip ospf 15 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::2 link-local
+ ipv6 address 2001:BBFC:88EF:FFFA::1/64
+ ipv6 ospf 15 area 0
+!
+interface GigabitEthernet0/1
+ ip address 10.150.127.13 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf network point-to-point
+ ip ospf 15 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::2 link-local
+ ipv6 address 2001:BBFC:88EF:FFFB::2/64
+ ipv6 ospf 15 area 0
+!
+interface GigabitEthernet0/2
+ ip address 10.150.127.2 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf 15 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::2 link-local
+ ipv6 address 2001:BBFC:88EF:FFFF::2/64
+ ipv6 ospf 15 area 0
+!
+interface GigabitEthernet0/3
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly in
+ ip ospf 15 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospfv3 15
+ router-id 2.2.2.2
+ !
+ address-family ipv6 unicast
+ exit-address-family
+!
+router ospf 15
+ router-id 2.2.2.2
+ priority 100
+ auto-cost reference-bandwidth 1000
+ passive-interface GigabitEthernet0/3
+ network 192.168.255.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip nat inside source list 1 interface GigabitEthernet0/3 overload
+ip route 0.0.0.0 0.0.0.0 192.168.255.1
+ip ssh version 2
+!
+ip access-list extended ALLOW_IT_VLAN_VTY
+ permit ip 10.150.120.0 0.0.0.255 any
+ deny   ip any any
+!
+logging host 10.150.0.16
+ipv6 ioam timestamp
+!
+!
+access-list 1 permit 10.150.0.0 0.0.127.255
+access-list 1 deny   any
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ exec-timeout 0 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ access-class ALLOW_IT_VLAN_VTY in
+ password cisco
+ login    
+ transport input ssh
+line vty 5 15
+ access-class ALLOW_IT_VLAN_VTY in
+ password cisco
+ login
+ transport input ssh
+!
+no scheduler allocate
+!
+end
+
+SpringR2# 
