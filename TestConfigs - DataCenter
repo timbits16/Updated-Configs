@@ -1,7 +1,9 @@
+DataCentre#show run
+Building configuration...
 
-Current configuration : 5798 bytes
+Current configuration : 5675 bytes
 !
-! Last configuration change at 04:39:17 UTC Mon Aug 5 2024
+! Last configuration change at 06:25:00 UTC Mon Aug 5 2024
 !
 version 15.2
 service timestamps debug datetime msec
@@ -45,7 +47,7 @@ vlan 720
 !
 vlan 888
  name Closed
-!         
+!
 vlan 990
  name DataCenter
 !
@@ -156,7 +158,7 @@ interface GigabitEthernet2/2
  switchport nonegotiate
  shutdown
  negotiation auto
-!         
+!
 interface GigabitEthernet2/3
  switchport access vlan 888
  switchport mode access
@@ -165,24 +167,24 @@ interface GigabitEthernet2/3
  negotiation auto
 !
 interface GigabitEthernet3/0
-shutdown
+ shutdown
  negotiation auto
 !
 interface GigabitEthernet3/1
-shutdown
+ shutdown
  negotiation auto
 !
 interface GigabitEthernet3/2
-shutdown
+ shutdown
  negotiation auto
 !
 interface GigabitEthernet3/3
-shutdown
+ shutdown
  negotiation auto
 !
 interface Vlan990
  ip address 10.150.0.34 255.255.255.0
-!
+!         
 ip forward-protocol nd
 !
 ip http server
@@ -193,41 +195,39 @@ ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 !
 ip access-list extended ALLOW_IT_VLAN_VTY
  permit ip 10.150.120.0 0.0.0.255 any
- deny   any
 !
 logging host 10.150.0.16
-logging trap informational
 !
 !
 !
 !
 control-plane
 !
-banner exec ^C
+banner exec ^CC
 IOSv - Cisco Systems Confidential -
 
 Supplemental End User License Restrictions
-
-This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+          
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environme
 
 By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
 ^C
-banner incoming ^C
+banner incoming ^CC
 IOSv - Cisco Systems Confidential -
 
 Supplemental End User License Restrictions
 
-This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environme
 
           
 By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
-^C
-banner login ^C
+^C        
+banner login ^CC
 IOSv - Cisco Systems Confidential -
 
 Supplemental End User License Restrictions
 
-This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environme
 
 By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
 ^C
@@ -252,4 +252,4 @@ line vty 5 15
 !
 end
 
-DataCentre#
+DataCentre# 
