@@ -1,7 +1,9 @@
-*Aug  5 04:13:03.897: %SYS-5-CONFIG_I: Configured from console by console
-Current configuration : 4478 bytes
+SpringR2#show run
+Building configuration...
+
+Current configuration : 4462 bytes
 !
-! Last configuration change at 04:13:03 UTC Mon Aug 5 2024
+! Last configuration change at 05:42:11 UTC Mon Aug 5 2024
 !
 version 15.9
 service timestamps debug datetime msec
@@ -133,11 +135,9 @@ ip route 0.0.0.0 0.0.0.0 192.168.255.1
 ip ssh version 2
 !
 ip access-list extended ALLOW_IT_VLAN_VTY
- permit ip 10.150.120.0 0.0.0.255
- deny   any
+ permit ip 10.150.120.0 0.0.0.255 any
 !
 logging host 10.150.0.16
-logging trap informational
 ipv6 ioam timestamp
 !
 !
@@ -146,7 +146,7 @@ access-list 1 deny   any
 !
 control-plane
 !
-banner exec ^C
+banner exec ^CC
 **************************************************************************
 * IOSv is strictly limited to use for evaluation, demonstration and IOS  *
 * education. IOSv is provided as-is and is not supported by Cisco's      *
@@ -155,7 +155,7 @@ banner exec ^C
 * purposes is expressly prohibited except as otherwise authorized by     *
 * Cisco in writing.                                                      *
 **************************************************************************^C
-banner incoming ^C
+banner incoming ^CC
 **************************************************************************
 * IOSv is strictly limited to use for evaluation, demonstration and IOS  *
 * education. IOSv is provided as-is and is not supported by Cisco's      *
@@ -164,7 +164,7 @@ banner incoming ^C
 * purposes is expressly prohibited except as otherwise authorized by     *
 * Cisco in writing.                                                      *
 **************************************************************************^C
-banner login ^C
+banner login ^CC
 **************************************************************************
 * IOSv is strictly limited to use for evaluation, demonstration and IOS  *
 * education. IOSv is provided as-is and is not supported by Cisco's      *
@@ -183,7 +183,7 @@ line aux 0
 line vty 0 4
  access-class ALLOW_IT_VLAN_VTY in
  password cisco
- login    
+ login
  transport input ssh
 line vty 5 15
  access-class ALLOW_IT_VLAN_VTY in
@@ -195,4 +195,4 @@ no scheduler allocate
 !
 end
 
-SpringR2# 
+SpringR2#
