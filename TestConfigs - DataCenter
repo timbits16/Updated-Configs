@@ -168,7 +168,7 @@ interface GigabitEthernet2/3
  negotiation auto
 !
 interface GigabitEthernet3/0
- shutdown
+no shutdown
  negotiation auto
 !
 interface GigabitEthernet3/1
