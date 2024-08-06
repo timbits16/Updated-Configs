@@ -326,7 +326,6 @@ interface Vlan215
 !
 interface Vlan220
  ip address 10.150.60.2 255.255.255.0
- ip access-group DENY_VISITORS_TO_DC in
  ip helper-address 10.150.0.12 
  ip helper-address 10.150.0.13 
  standby version 2
@@ -384,7 +383,6 @@ interface Vlan320
 !
 interface Vlan325
  ip address 10.150.96.2 255.255.255.0
- ip access-group DENY_VISITORS_TO_DC in
  ip helper-address 10.150.0.12 
  ip helper-address 10.150.0.13 
  standby version 2
