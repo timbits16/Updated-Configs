@@ -474,9 +474,9 @@ ip access-list standard ALLOW_IT_VLAN_VTY
  permit 10.150.120.0 0.0.0.255
  deny any
 ip access-list extended DENY_VISITORS_TO_DC
- deny   ip 10.150.28.0 0.0.0.255
- deny   ip 10.150.60.0 0.0.0.255
- deny   ip 10.150.96.0 0.0.0.255
+ deny   ip 10.150.28.0 0.0.0.255 any
+ deny   ip 10.150.60.0 0.0.0.255 any
+ deny   ip 10.150.96.0 0.0.0.255 any
  permit tcp any any eq 80
  permit tcp any any eq 443
  permit udp any any eq 53
