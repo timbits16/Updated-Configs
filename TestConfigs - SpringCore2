@@ -250,7 +250,6 @@ interface Vlan145
 !
 interface Vlan155
  ip address 10.150.28.3 255.255.255.0
- ip access-group DENY_VISITORS_TO_DC in
  ip helper-address 10.150.0.12 
  ip helper-address 10.150.0.13 
  standby version 2
@@ -306,7 +305,6 @@ interface Vlan215
 !
 interface Vlan220
  ip address 10.150.60.3 255.255.255.0
- ip access-group DENY_VISITORS_TO_DC in
  ip helper-address 10.150.0.12 
  ip helper-address 10.150.0.13 
  standby version 2
@@ -399,7 +397,6 @@ interface Vlan888
 !
 interface Vlan990
  ip address 10.150.0.43 255.255.255.0
- ip access-group DENY_VISITORS_TO_DC out
  ip helper-address 10.150.0.12 
  ip helper-address 10.150.0.13 
  standby version 2
@@ -460,7 +457,7 @@ ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 !
 ip access-list standard ALLOW_IT_VLAN_VTY
  permit 10.150.120.0 0.0.0.255
- deny any
+ any
 ip access-list extended DENY_VISITORS_TO_DC
  deny   ip 10.150.28.0 0.0.0.255
  deny   ip 10.150.60.0 0.0.0.255
