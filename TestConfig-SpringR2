@@ -135,7 +135,8 @@ ip route 0.0.0.0 0.0.0.0 192.168.255.1
 ip ssh version 2
 !
 ip access-list standard ALLOW_IT_VLAN_VTY
- permit ip 10.150.120.0 0.0.0.255
+ permit 10.150.120.0 0.0.0.255
+deny any
 !
 logging host 10.150.0.16
 ipv6 ioam timestamp
