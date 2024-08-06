@@ -397,6 +397,7 @@ interface Vlan888
 !
 interface Vlan990
  ip address 10.150.0.43 255.255.255.0
+ ip access-group DENY_VISITORS_TO_DC out
  ip helper-address 10.150.0.12 
  ip helper-address 10.150.0.13 
  standby version 2
