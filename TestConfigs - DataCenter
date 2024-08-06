@@ -72,6 +72,7 @@ interface Port-channel1
  switchport trunk encapsulation dot1q
  switchport trunk native vlan 999
  switchport mode trunk
+no shut
 !
 interface Port-channel2
  switchport trunk allowed vlan 720,990,999
@@ -193,8 +194,9 @@ ip http secure-server
 ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 !
-ip access-list extended ALLOW_IT_VLAN_VTY
- permit ip 10.150.120.0 0.0.0.255 any
+ip access-list standard ALLOW_IT_VLAN_VTY
+ permit 10.150.120.0 0.0.0.255
+deny any
 !
 logging host 10.150.0.16
 !
