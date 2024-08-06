@@ -150,6 +150,7 @@ interface GigabitEthernet2/0
  switchport mode access
  switchport nonegotiate
  negotiation auto
+ip dhcp snooping limit rate 15
 !
 interface GigabitEthernet2/1
  switchport access vlan 155
@@ -157,12 +158,14 @@ interface GigabitEthernet2/1
  switchport nonegotiate
  switchport port-security
  negotiation auto
+ip dhcp snooping limit rate 15
 !
 interface GigabitEthernet2/2
  switchport access vlan 155
  switchport mode access
  switchport nonegotiate
  negotiation auto
+ip dhcp snooping limit rate 15
 !
 interface GigabitEthernet2/3
  switchport access vlan 720
@@ -174,20 +177,20 @@ interface GigabitEthernet2/3
  negotiation auto
 !
 interface GigabitEthernet3/0
- shutdown
- negotiation auto
+ no shutdown
+
 !
 interface GigabitEthernet3/1
  shutdown
- negotiation auto
+
 !
 interface GigabitEthernet3/2
  shutdown
- negotiation auto
+
 !         
 interface GigabitEthernet3/3
  shutdown
- negotiation auto
+
 !
 interface Vlan105
  ip address 10.150.8.31 255.255.255.0
@@ -200,8 +203,9 @@ no ip http secure-server
 ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 !
-ip access-list extended ALLOW_IT_VLAN_VTY
- permit ip 10.150.120.0 0.0.0.255 any
+ip access-list standard ALLOW_IT_VLAN_VTY
+permit 10.150.120.0 0.0.0.255
+deny any
 !
 !
 !
